@@ -10,7 +10,7 @@ from slugify import slugify
 import json
 
 app = typer.Typer(help="CLI App para procesamiento de datos de Ferias Libres")
-
+app_debug = config.debug
 
 def descarga_url(url_list: Optional[list] = None) -> list:
     if not url_list:
@@ -83,7 +83,7 @@ def descarga_comunas_por_region(
             except Exception as e:
                 print(f"Error: {e}")
             else:
-                print(f"Archivo Guardado!")
+                print(f"Archivo [bold]{archivo}[/bold] Guardado!")
 
 
 @app.command("obtiene-ferias")
@@ -126,7 +126,7 @@ def descarga_ferias_por_region(
             except Exception as e:
                 print(f"Error: {e}")
             else:
-                print(f"Archivo Guardado!")
+                print(f"Archivo [bold]{archivo}[/bold] Guardado!")
 
 
 @app.command("genera-archivos")
@@ -164,5 +164,9 @@ def genera_archivos_por_comuna(
 
 @app.callback()
 def main(debug: bool = False):
-    if config.debug:
+    global app_debug
+    if debug:
+        app_debug = True
+
+    if app_debug:
         print("[bold]Debug Enabled[/bold]")

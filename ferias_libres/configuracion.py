@@ -4,7 +4,7 @@ from httpx import Limits
 
 
 class Configuracion(BaseSettings):
-    debug: bool = True
+    debug: bool = False
     show_dots: bool = True
     odepa_comunas: HttpUrl = "https://apimapaferias.sercotec.cl/API/Comuna/PorRegion"  # type: ignore
     odepa_ferias: HttpUrl = (
