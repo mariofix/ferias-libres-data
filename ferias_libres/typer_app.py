@@ -1,5 +1,5 @@
 import typer
-from rich import print
+from rich import print as rich_print
 from .configuracion import config
 from typing_extensions import Annotated
 from typing import Optional
@@ -23,20 +23,20 @@ def descarga_url(url_list: Optional[list] = None) -> list:
         for url in url_list:
             if not primer_request:
                 if config.debug:
-                    print(
+                    rich_print(
                         f"Esperando {config.tiempo_espera}s para no sobrecargar la API"
                     )
                 time.sleep(config.tiempo_espera)
 
             if config.debug:
-                print(f"Iniciando descarga: {url}")
+                rich_print(f"Iniciando descarga: {url}")
             datos = cliente.get(str(url))
             dict_key = slugify(url.query)
             if config.debug:
-                print(f"Se seteó en indice {dict_key=}")
+                rich_print(f"Se seteó en indice {dict_key=}")
             nueva_region = {f"{dict_key}": datos.json()}
             if config.debug:
-                print(f"{nueva_region=}")
+                rich_print(f"{nueva_region=}")
             data.append(nueva_region)
             primer_request = False
 
@@ -66,7 +66,7 @@ def descarga_comunas_por_region(
     urls: list[HttpUrl] = []
     if not region:
         if config.debug:
-            print("Vamos a descargar las comunas de 15 regiones...")
+            rich_print("Vamos a descargar las comunas de 15 regiones...")
         for region in range(1, 16):
             urls.append(HttpUrl(f"{config.odepa_comunas}?pRegionId={region}"))
 
@@ -75,15 +75,15 @@ def descarga_comunas_por_region(
 
     datos = descarga_url(urls)
     if not guardar:
-        print(datos)
+        rich_print(datos)
     else:
         with open(archivo, "w", encoding="utf-8") as f:
             try:
                 json.dump(datos, f, ensure_ascii=False, indent=4, sort_keys=True)
             except Exception as e:
-                print(f"Error: {e}")
+                rich_print(f"Error: {e}")
             else:
-                print(f"Archivo [bold]{archivo}[/bold] Guardado!")
+                rich_print(f"Archivo [bold]{archivo}[/bold] Guardado!")
 
 
 @app.command("obtiene-ferias")
@@ -109,7 +109,7 @@ def descarga_ferias_por_region(
     urls: list[HttpUrl] = []
     if not region:
         if config.debug:
-            print("Vamos a descargar las ferias de 15 regiones...")
+            rich_print("Vamos a descargar las ferias de 15 regiones...")
         for region in range(1, 16):
             urls.append(HttpUrl(f"{config.odepa_ferias}?pRegionId={region}"))
 
@@ -118,15 +118,15 @@ def descarga_ferias_por_region(
 
     datos = descarga_url(urls)
     if not guardar:
-        print(datos)
+        rich_print(datos)
     else:
         with open(archivo, "w", encoding="utf-8") as f:
             try:
                 json.dump(datos, f, ensure_ascii=False, indent=4, sort_keys=True)
             except Exception as e:
-                print(f"Error: {e}")
+                rich_print(f"Error: {e}")
             else:
-                print(f"Archivo [bold]{archivo}[/bold] Guardado!")
+                rich_print(f"Archivo [bold]{archivo}[/bold] Guardado!")
 
 
 @app.command("genera-archivos")
@@ -154,12 +154,12 @@ def genera_archivos_por_comuna(
     with open(archivo_comunas, "r", encoding="utf-8") as comunas:
         lista_comunas = json.load(comunas)
 
-    print(f"{lista_comunas=}")
+    rich_print(f"{lista_comunas=}")
 
     with open(archivo_ferias, "r", encoding="utf-8") as ferias:
         lista_ferias = json.load(ferias)
 
-    print(f"{lista_ferias=}")
+    rich_print(f"{lista_ferias=}")
 
 
 @app.callback()
@@ -169,4 +169,4 @@ def main(debug: bool = False):
         app_debug = True
 
     if app_debug:
-        print("[bold]Debug Enabled[/bold]")
+        rich_print("[bold]Debug Enabled[/bold]")
