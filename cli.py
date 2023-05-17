@@ -1,7 +1,4 @@
-from ferias_libres import aplicacion, config
-
-print(f"{config=}")
-
+from ferias_libres import app
 
 if __name__ == "__main__":
-    aplicacion()
+    app()

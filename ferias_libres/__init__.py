@@ -1,5 +1,5 @@
 from .configuracion import config
-from .typer_app import typer as aplicacion
+from .typer_app import app
 
 
-__all__ = ["config", "aplicacion"]
+__all__ = ["config", "app"]

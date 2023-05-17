@@ -1,0 +1,257 @@
+[
+    {
+        "slug": "nunoa",
+        "ubicacion": {
+            "latitude": -33.456595,
+            "longitude": -70.5985254,
+            "latitudeDelta": 0.1,
+            "longitudeDelta": 0.3
+        },
+        "ferias": [
+            {
+                "nombre": "Matta Oriente",
+                "dias": {
+                    "lunes": false,
+                    "martes": false,
+                    "miercoles": true,
+                    "jueves": false,
+                    "viernes": false,
+                    "sabado": true,
+                    "domingo": false
+                },
+                "ubicacion": [
+                    {
+                        "lat": "-33.45446570558375",
+                        "lng": "-70.62498123322315"
+                    },
+                    {
+                        "lat": "-33.45441650833139",
+                        "lng": "-70.6246387294553"
+                    },
+                    {
+                        "lat": "-33.4542648838216",
+                        "lng": "-70.62391856984813"
+                    },
+                    {
+                        "lat": "-33.45409502810725",
+                        "lng": "-70.62322369336684"
+                    },
+                    {
+                        "lat": "-33.45380182518348",
+                        "lng": "-70.62210808016962"
+                    }
+                ]
+            },
+            {
+                "nombre": "Guillermo Mann",
+                "dias": {
+                    "lunes": false,
+                    "martes": true,
+                    "miercoles": false,
+                    "jueves": false,
+                    "viernes": true,
+                    "sabado": false,
+                    "domingo": false
+                },
+                "ubicacion": [
+                    {
+                        "lat": "-33.47033062736097",
+                        "lng": "-70.60831982719196"
+                    },
+                    {
+                        "lat": "-33.47024616972327",
+                        "lng": "-70.60655307553755"
+                    }
+                ]
+            },
+            {
+                "nombre": "San Eugenio",
+                "dias": {
+                    "lunes": false,
+                    "martes": false,
+                    "miercoles": false,
+                    "jueves": false,
+                    "viernes": false,
+                    "sabado": true,
+                    "domingo": false
+                },
+                "ubicacion": [
+                    {
+                        "lat": "-33.47105634505579",
+                        "lng": "-70.62172534250074"
+                    },
+                    {
+                        "lat": "-33.47020237638917",
+                        "lng": "-70.62298207384036"
+                    },
+                    {
+                        "lat": "-33.46867725538309",
+                        "lng": "-70.62301342544383"
+                    },
+                    {
+                        "lat": "-33.46688890788901",
+                        "lng": "-70.62346691544619"
+                    }
+                ]
+            },
+            {
+                "nombre": "Los Alerces",
+                "dias": {
+                    "lunes": false,
+                    "martes": false,
+                    "miercoles": true,
+                    "jueves": false,
+                    "viernes": false,
+                    "sabado": false,
+                    "domingo": false
+                },
+                "ubicacion": [
+                    {
+                        "lat": "-33.47131466995467",
+                        "lng": "-70.59058390676549"
+                    },
+                    {
+                        "lat": "-33.46903668024676",
+                        "lng": "-70.59256427127843"
+                    }
+                ]
+            },
+            {
+                "nombre": "Ortúzar",
+                "dias": {
+                    "lunes": false,
+                    "martes": false,
+                    "miercoles": false,
+                    "jueves": false,
+                    "viernes": false,
+                    "sabado": false,
+                    "domingo": true
+                },
+                "ubicacion": [
+                    {
+                        "lat": "-33.4498333501932",
+                        "lng": "-70.58362897433646"
+                    },
+                    {
+                        "lat": "-33.44841383033093",
+                        "lng": "-70.58346974341961"
+                    }
+                ]
+            },
+            {
+                "nombre": "Los Aromos",
+                "dias": {
+                    "lunes": false,
+                    "martes": false,
+                    "miercoles": false,
+                    "jueves": false,
+                    "viernes": false,
+                    "sabado": true,
+                    "domingo": false
+                },
+                "ubicacion": [
+                    {
+                        "lat": "-33.46152323200452",
+                        "lng": "-70.60368170606591"
+                    },
+                    {
+                        "lat": "-33.4613686745713",
+                        "lng": "-70.6059783480577"
+                    }
+                ]
+            },
+            {
+                "nombre": "Emilia Téllez",
+                "dias": {
+                    "lunes": false,
+                    "martes": false,
+                    "miercoles": true,
+                    "jueves": false,
+                    "viernes": false,
+                    "sabado": true,
+                    "domingo": false
+                },
+                "ubicacion": [
+                    {
+                        "lat": "-33.44163324754074",
+                        "lng": "-70.58154793947419"
+                    },
+                    {
+                        "lat": "-33.44227461173286",
+                        "lng": "-70.57897199508719"
+                    }
+                ]
+            },
+            {
+                "nombre": "Doublé Almeyda",
+                "dias": {
+                    "lunes": false,
+                    "martes": false,
+                    "miercoles": false,
+                    "jueves": false,
+                    "viernes": true,
+                    "sabado": false,
+                    "domingo": false
+                },
+                "ubicacion": [
+                    {
+                        "lat": "-33.4583209212521",
+                        "lng": "-70.58403498178613"
+                    },
+                    {
+                        "lat": "-33.45890984216331",
+                        "lng": "-70.58051860163677"
+                    }
+                ]
+            },
+            {
+                "nombre": "María Celeste",
+                "dias": {
+                    "lunes": false,
+                    "martes": false,
+                    "miercoles": false,
+                    "jueves": false,
+                    "viernes": true,
+                    "sabado": false,
+                    "domingo": true
+                },
+                "ubicacion": [
+                    {
+                        "lat": "-33.46503386882567",
+                        "lng": "-70.58130921874626"
+                    },
+                    {
+                        "lat": "-33.46568119982614",
+                        "lng": "-70.57657226587459"
+                    },
+                    {
+                        "lat": "-33.46596043844411",
+                        "lng": "-70.57544138647394"
+                    }
+                ]
+            },
+            {
+                "nombre": "Grecia Modelo",
+                "dias": {
+                    "lunes": false,
+                    "martes": false,
+                    "miercoles": false,
+                    "jueves": true,
+                    "viernes": false,
+                    "sabado": false,
+                    "domingo": true
+                },
+                "ubicacion": [
+                    {
+                        "lat": "-33.46809653593066",
+                        "lng": "-70.61720089394562"
+                    },
+                    {
+                        "lat": "-33.46768336317067",
+                        "lng": " -70.61411846457214"
+                    }
+                ]
+            }
+        ]
+    }
+]

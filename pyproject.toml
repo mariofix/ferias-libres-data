@@ -5,19 +5,33 @@ description = "Archivos de datos para Ferias Libres"
 authors = ["Mario Hernandez <mariofix@pm.me>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "ferias_libres_data"}]
+packages = [{include = "ferias_libres"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
 httpx = "^0.24.0"
 typer = {extras = ["all"], version = "^0.9.0"}
 pydantic-settings = "^1.99"
+python-slugify = "^8.0.1"
 
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.3.0"
-isort = "^5.12.0"
-flake8 = "^6.0.0"
+black = "*"
+pytest = "*"
+coverage = "*"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra"
+testpaths = [
+    "tests",
+]
+python_files =[
+    "test*.py"
+]
+
+[tool.poetry.scripts]
+ferias-libres = 'cli:app'
 
 [build-system]
 requires = ["poetry-core"]
