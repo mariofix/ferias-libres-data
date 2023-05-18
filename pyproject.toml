@@ -19,6 +19,7 @@ python-slugify = "^8.0.1"
 black = "*"
 pytest = "*"
 coverage = "*"
+isort = "*"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
