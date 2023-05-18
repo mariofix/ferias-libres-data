@@ -161,16 +161,9 @@ def genera_archivos_por_comuna(
     Genera archivos para Ferias Libres
     """
     global app_debug
-    # with open(archivo_comunas, "r", encoding="utf-8") as comunas:
-    #     lista_comunas = json.load(comunas)
-
-    # rich_print(f"{lista_comunas=}")
-
     with open(archivo_ferias, "r", encoding="utf-8") as ferias:
         lista_ferias = json.load(ferias)
 
-    # rich_print(f"{lista_ferias=}")
-    payload: Payload = Payload()
     comunas: dict = {}
     if app_debug:
         rich_print(f"Procesando {len(lista_ferias)} regiones.")

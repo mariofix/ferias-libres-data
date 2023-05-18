@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from slugify import slugify
 
 
 class LatLng(BaseModel):
