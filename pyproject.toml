@@ -10,13 +10,13 @@ packages = [{include = "ferias_libres"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 httpx = "*"
-typer = {extras = ["all"], version = "^0.9.0"}
+typer = {extras = ["all"], version = "*"}
 pydantic-settings = "^1.99"
-python-slugify = "^8.0.1"
-flask-admin = "^1.6.1"
+python-slugify = "*"
+flask-admin = "*"
 flask = "^2.3.2"
-flask-restx = "^1.1.0"
-flask-http-middleware = "^0.3.1"
+flask-restx = "*"
+flask-http-middleware = "*"
 flask-migrate = "^4.0.4"
 python-dotenv = "*"
 flask-debugtoolbar = "*"
@@ -27,7 +27,10 @@ pymysql = "*"
 bcrypt = "*"
 python-multipart = "*"
 flask-security-too = {extras = ["babel", "common", "sqla"], version = "*"}
-sqlalchemy-mixins = "^2.0.0"
+sqlalchemy-mixins = "*"
+
+[tool.poetry.group.dev]
+optional = true
 
 [tool.poetry.group.dev.dependencies]
 black = "*"
@@ -36,7 +39,13 @@ coverage = "*"
 isort = "*"
 pre-commit = "*"
 pyupgrade = "*"
-autopep8 = "^2.0.2"
+autopep8 = "*"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.deploy.dependencies]
+gunicorn = "*"
 
 [tool.autopep8]
 max_line_length = 120
