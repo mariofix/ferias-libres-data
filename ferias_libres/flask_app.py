@@ -13,7 +13,7 @@ Main Factory has two endpoints:
 import logging.config
 from typing import Optional
 
-from flask import Flask, abort, jsonify, request, request_started, session, url_for, g
+from flask import Flask, request, session, url_for
 from flask_admin import helpers as admin_helpers
 from flask_babel import Babel
 from flask_debugtoolbar import DebugToolbarExtension
@@ -23,12 +23,13 @@ from flask_security.datastore import SQLAlchemyUserDatastore
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from .admin.site import admin_site
+from .api import api_bp as api
 from .database import db, migrations
 from .middleware import AllowedDomainsMiddleware
 from .models import Role, User
 
 
-def create_app(settings_file: Optional[str] = None) -> Flask:
+def create_app(settings_file: str | None = None) -> Flask:
     """Main Factory
 
     Args:
@@ -45,8 +46,8 @@ def create_app(settings_file: Optional[str] = None) -> Flask:
     app.config.from_prefixed_env()
 
     # Configure Loggers
-    logging.config.dictConfig(app.config.get("APP_LOGGING_CONFIG"))
-    # toolbar = DebugToolbarExtension(app)
+    logging.config.dictConfig(app.config.get("APP_LOGGING_CONFIG", {"disable_existing_loggers": False}))
+    toolbar = DebugToolbarExtension(app)
     # Sentry Here
 
     # SQLAlchemy
@@ -55,6 +56,9 @@ def create_app(settings_file: Optional[str] = None) -> Flask:
 
     # FLask-Admin
     admin_site.init_app(app)
+
+    # API
+    app.register_blueprint(api, url_prefix="/api")
 
     # Flask-Security
     user_datastore = SQLAlchemyUserDatastore(db, User, Role)
@@ -69,17 +73,16 @@ def create_app(settings_file: Optional[str] = None) -> Flask:
         return session.get("lang", app.config.get("BABEL_DEFAULT_LOCALE"))
 
     def get_timezone():
-        user = getattr(g, "user", None)
-        return user.timezone or app.config.get("BABEL_DEFAULT_TIMEZONE")
+        return app.config.get("BABEL_DEFAULT_TIMEZONE")
 
     babel.init_app(app, locale_selector=get_locale, timezone_selector=get_timezone)
 
     @security.context_processor
     def security_context_processor():
         return dict(
-            admin_base_template=admin_site.base_template,
+            admin_base_template=admin_site.base_template,  # type: ignore
             admin_view=admin_site.index_view,
-            h=admin_helpers,
+            h=admin_helpers,  # type: ignore
             get_url=url_for,
             app=app,
         )

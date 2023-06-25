@@ -1,9 +1,10 @@
+import pytest
+
 from ferias_libres.typer_app import (
-    descarga_url,
     adivina_dias,
+    descarga_url,
     obtiene_lista_ubicaciones,
 )
-import pytest
 
 
 def test_descarga_sin_url():

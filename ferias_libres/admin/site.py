@@ -1,12 +1,13 @@
-from .views import RoleAdmin, UserAdmin, ComunaAdmin, FeriaAdmin
-from ..database import db
-from ..models import Role, User, Comuna, Feria
 from flask import redirect, request, url_for
 from flask_admin import Admin
 from flask_admin.consts import ICON_TYPE_FONT_AWESOME
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
 from flask_babel import lazy_gettext as _
+
+from ..database import db
+from ..models import Comuna, Feria, Role, User
+from .views import ComunaAdmin, FeriaAdmin, RoleAdmin, UserAdmin
 
 admin_site = Admin(
     name="Ferias Libres",

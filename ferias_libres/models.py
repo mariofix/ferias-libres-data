@@ -1,6 +1,5 @@
 import datetime
 
-from .database import db
 from flask_admin.babel import lazy_gettext as _
 from flask_security.core import RoleMixin, UserMixin
 from sqlalchemy import (
@@ -17,6 +16,8 @@ from sqlalchemy import (
     text,
 )
 from sqlalchemy.orm import backref, declarative_mixin, registry, relationship
+
+from .database import db
 
 
 @declarative_mixin
@@ -96,6 +97,11 @@ class Comuna(db.Model, TimestampMixin):
     region = Column(String(255), nullable=False)
     ubicacion = Column(db.JSON(), nullable=True)
 
+    ferias = db.relationship(
+        "Feria",
+        backref="comuna",
+    )
+
     def __str__(self):
         return self.slug
 
@@ -114,7 +120,7 @@ class Feria(db.Model, TimestampMixin):
     sabado = Column(Boolean(), default=False)
     domingo = Column(Boolean(), default=False)
     ubicacion = Column(db.JSON(), nullable=True)
-    comuna_id = Column("comuna_id", db.Integer(), db.ForeignKey("ferias_comuna.id"))
+    comuna_id = Column(Integer(), db.ForeignKey("ferias_comuna.id"))
 
     def __str__(self):
         return self.slug

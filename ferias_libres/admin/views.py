@@ -1,5 +1,3 @@
-from .mixins import AdminModelView
-from ..models import Role, User
 from flask import current_app
 from flask_admin import BaseView, expose
 from flask_admin.babel import lazy_gettext as _
@@ -9,6 +7,9 @@ from flask_admin.form import BaseForm
 from flask_security.utils import hash_password
 from wtforms import fields, validators
 from wtforms.widgets import TextArea
+
+from ..models import Role, User
+from .mixins import AdminModelView
 
 
 class AppAdmin:
@@ -35,7 +36,7 @@ class UserAdmin(AppAdmin, AdminModelView):
     column_list = [User.username, User.email, User.active, "roles"]
 
     def scaffold_form(self):
-        form_class = super(UserAdmin, self).scaffold_form()
+        form_class = super().scaffold_form()
         form_class.password2 = fields.PasswordField(_("New Password"))
         return form_class
 
@@ -55,11 +56,11 @@ class ComunaAdmin(AppAdmin, AdminModelView):
     name = _("Comuna")
     name_plural = _("Comunas")
     icon = "fa-solid fa-list"
-    column_list = ["slug", "nombre", "cut", "region"]
+    column_list = ["slug", "nombre", "region", "ferias"]
 
 
 class FeriaAdmin(AppAdmin, AdminModelView):
     name = _("Feria Libre")
     name_plural = _("Ferias Libres")
     icon = "fa-solid fa-list"
-    column_list = ["slug", "nombre", "comuna_id"]
+    column_list = ["slug", "nombre", "comuna"]

@@ -1,14 +1,13 @@
 import json
 import re
 import time
-from typing import Optional
+from typing import Annotated, Optional
 
 import httpx
 import typer
 from pydantic import HttpUrl
 from rich import print as rich_print
 from slugify import slugify
-from typing_extensions import Annotated
 
 from .configuracion import config
 from .schemas import Comuna, Feria, LatLng, Payload, Semana
@@ -17,7 +16,7 @@ app = typer.Typer(help="CLI App para procesamiento de datos de Ferias Libres")
 app_debug = config.debug
 
 
-def descarga_url(url_list: Optional[list] = None) -> list:
+def descarga_url(url_list: list | None = None) -> list:
     if not url_list:
         raise Exception("La lista de URLs no puede estar vacia")
 
@@ -28,9 +27,7 @@ def descarga_url(url_list: Optional[list] = None) -> list:
         for url in url_list:
             if not primer_request:
                 if config.debug:
-                    rich_print(
-                        f"Esperando {config.tiempo_espera}s para no sobrecargar la API"
-                    )
+                    rich_print(f"Esperando {config.tiempo_espera}s para no sobrecargar la API")
                 time.sleep(config.tiempo_espera)
 
             if config.debug:
@@ -51,14 +48,12 @@ def descarga_url(url_list: Optional[list] = None) -> list:
 @app.command("obtiene-comunas")
 def descarga_comunas_por_region(
     region: Annotated[
-        Optional[int],
+        int | None,
         typer.Option(help="Define region a descargar. Todas si no se define."),
     ] = None,
     guardar: Annotated[
         bool,
-        typer.Option(
-            help="Guarda automaticamente el archivo en vez de mostrarlo en pantalla."
-        ),
+        typer.Option(help="Guarda automaticamente el archivo en vez de mostrarlo en pantalla."),
     ] = False,
     archivo: Annotated[
         str,
@@ -96,14 +91,12 @@ def descarga_comunas_por_region(
 @app.command("obtiene-ferias")
 def descarga_ferias_por_region(
     region: Annotated[
-        Optional[int],
+        int | None,
         typer.Option(help="Define region a descargar. Todas si no se define."),
     ] = None,
     guardar: Annotated[
         bool,
-        typer.Option(
-            help="Guarda automaticamente el archivo en vez de mostrarlo en pantalla."
-        ),
+        typer.Option(help="Guarda automaticamente el archivo en vez de mostrarlo en pantalla."),
     ] = False,
     archivo: Annotated[
         str,
@@ -140,17 +133,11 @@ def descarga_ferias_por_region(
 
 @app.command("genera-archivos")
 def genera_archivos_por_comuna(
-    archivo_comunas: Annotated[
-        str, typer.Option(help="archivo de comunas")
-    ] = "./comunas.json",
-    archivo_ferias: Annotated[
-        str, typer.Option(help="archivo de ferias")
-    ] = "./ferias.json",
+    archivo_comunas: Annotated[str, typer.Option(help="archivo de comunas")] = "./comunas.json",
+    archivo_ferias: Annotated[str, typer.Option(help="archivo de ferias")] = "./ferias.json",
     guardar: Annotated[
         bool,
-        typer.Option(
-            help="Guarda automaticamente el archivo en vez de mostrarlo en pantalla."
-        ),
+        typer.Option(help="Guarda automaticamente el archivo en vez de mostrarlo en pantalla."),
     ] = False,
     archivo: Annotated[
         str,
@@ -161,7 +148,7 @@ def genera_archivos_por_comuna(
     Genera archivos para Ferias Libres
     """
     global app_debug
-    with open(archivo_ferias, "r", encoding="utf-8") as ferias:
+    with open(archivo_ferias, encoding="utf-8") as ferias:
         lista_ferias = json.load(ferias)
 
     comunas: dict = {}
@@ -216,9 +203,7 @@ def obtiene_lista_ubicaciones(lista: list) -> list:
         rich_print(f"Procesando {len(lista)} elementos")
     ubicaciones = []
     for row in lista:
-        ubicacion = LatLng(
-            latitude=row.get("lat").strip(), longitude=row.get("lng").strip()
-        )
+        ubicacion = LatLng(latitude=row.get("lat").strip(), longitude=row.get("lng").strip())
         if app_debug:
             rich_print(f"{ubicacion=}")
         ubicaciones.append(ubicacion)

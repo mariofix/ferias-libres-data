@@ -27,12 +27,27 @@ pymysql = "*"
 bcrypt = "*"
 python-multipart = "*"
 flask-security-too = {extras = ["babel", "common", "sqla"], version = "*"}
+sqlalchemy-mixins = "^2.0.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "*"
 pytest = "*"
 coverage = "*"
 isort = "*"
+pre-commit = "*"
+pyupgrade = "*"
+autopep8 = "^2.0.2"
+
+[tool.autopep8]
+max_line_length = 120
+ignore = "E501,W6"  # or ["E501", "W6"]
+in-place = true
+recursive = true
+aggressive = 3
+
+[tool.black]
+line-length = 120
+target-version = ['py311']
 
 [tool.pytest.ini_options]
 minversion = "6.0"
@@ -46,6 +61,9 @@ python_files =[
 
 [tool.poetry.scripts]
 ferias-libres = 'cli:app'
+
+[tool.isort]
+profile = "black"
 
 [build-system]
 requires = ["poetry-core"]

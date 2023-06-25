@@ -1,7 +1,6 @@
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import MetaData, event
-from sqlalchemy.engine import Engine
+from sqlalchemy import MetaData
 
 metadata = MetaData(
     naming_convention={
