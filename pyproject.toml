@@ -41,7 +41,7 @@ pre-commit = "*"
 pyupgrade = "*"
 autopep8 = "*"
 
-[tool.poetry.group.dev]
+[tool.poetry.group.deploy]
 optional = true
 
 [tool.poetry.group.deploy.dependencies]
