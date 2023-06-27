@@ -47,7 +47,7 @@ def create_app(settings_file: str | None = None) -> Flask:
 
     # Configure Loggers
     logging.config.dictConfig(app.config.get("APP_LOGGING_CONFIG", {"disable_existing_loggers": False}))
-    toolbar = DebugToolbarExtension(app)
+    # toolbar = DebugToolbarExtension(app)
     # Sentry Here
 
     # SQLAlchemy

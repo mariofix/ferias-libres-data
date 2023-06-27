@@ -2,34 +2,21 @@ import datetime
 
 from flask_admin.babel import lazy_gettext as _
 from flask_security.core import RoleMixin, UserMixin
-from sqlalchemy import (
-    Boolean,
-    Column,
-    DateTime,
-    ForeignKey,
-    Integer,
-    String,
-    Text,
-    UniqueConstraint,
-    event,
-    func,
-    text,
-)
-from sqlalchemy.orm import backref, declarative_mixin, registry, relationship
+from sqlalchemy.orm import backref, declarative_mixin, relationship
 
 from .database import db
 
 
 @declarative_mixin
 class TimestampMixin:
-    created_at = Column(
-        DateTime(timezone=True),
+    created_at = db.Column(
+        db.DateTime(timezone=True),
         default=datetime.datetime.now,
         nullable=False,
         name=_("created_at"),
     )
-    modified_at = Column(
-        DateTime(timezone=True),
+    modified_at = db.Column(
+        db.DateTime(timezone=True),
         default=datetime.datetime.now,
         nullable=False,
         name=_("modified_at"),
@@ -64,17 +51,17 @@ class Role(db.Model, RoleMixin, TimestampMixin):
 class User(db.Model, UserMixin, TimestampMixin):
     __tablename__ = "firenze_user"
 
-    id = Column(Integer(), primary_key=True)
-    username = Column(String(64), unique=True, nullable=True)
-    email = Column(String(255), nullable=False)
-    password = Column(String(255), nullable=False)
-    active = Column(Boolean(), default=True)
-    fs_uniquifier = Column(String(255), unique=True, nullable=False)
-    last_login_at = Column(DateTime(timezone=True))
-    current_login_at = Column(DateTime(timezone=True))
-    last_login_ip = Column(String(64))
-    current_login_ip = Column(String(64))
-    login_count = Column(Integer())
+    id = db.Column(db.Integer(), primary_key=True)
+    username = db.Column(db.String(64), unique=True, nullable=True)
+    email = db.Column(db.String(255), nullable=False)
+    password = db.Column(db.String(255), nullable=False)
+    active = db.Column(db.Boolean(), default=True)
+    fs_uniquifier = db.Column(db.String(255), unique=True, nullable=False)
+    last_login_at = db.Column(db.DateTime(timezone=True))
+    current_login_at = db.Column(db.DateTime(timezone=True))
+    last_login_ip = db.Column(db.String(64))
+    current_login_ip = db.Column(db.String(64))
+    login_count = db.Column(db.Integer())
 
     roles = relationship(
         "Role",
@@ -89,38 +76,37 @@ class User(db.Model, UserMixin, TimestampMixin):
 class Comuna(db.Model, TimestampMixin):
     __tablename__ = "ferias_comuna"
 
-    id = Column(Integer(), primary_key=True)
-    slug = Column(String(64), unique=True)
-    nombre = Column(String(64))
-    cut = Column(Integer())
-    provincia = Column(String(255), nullable=False)
-    region = Column(String(255), nullable=False)
-    ubicacion = Column(db.JSON(), nullable=True)
+    id = db.Column(db.Integer(), primary_key=True)
+    slug = db.Column(db.String(64), unique=True)
+    nombre = db.Column(db.String(64))
+    cut = db.Column(db.Integer())
+    provincia = db.Column(db.String(255), nullable=False)
+    region = db.Column(db.String(255), nullable=False)
+    ubicacion = db.Column(db.JSON(), nullable=True)
 
-    ferias = db.relationship(
-        "Feria",
-        backref="comuna",
-    )
+    ferias = relationship("Feria", back_populates="comuna")
 
     def __str__(self):
-        return self.slug
+        return self.nombre
 
 
 class Feria(db.Model, TimestampMixin):
     __tablename__ = "ferias_feria"
 
-    id = Column(Integer(), primary_key=True)
-    slug = Column(String(64), unique=True)
-    nombre = Column(String(64))
-    lunes = Column(Boolean(), default=False)
-    martes = Column(Boolean(), default=False)
-    miercoles = Column(Boolean(), default=False)
-    jueves = Column(Boolean(), default=False)
-    viernes = Column(Boolean(), default=False)
-    sabado = Column(Boolean(), default=False)
-    domingo = Column(Boolean(), default=False)
-    ubicacion = Column(db.JSON(), nullable=True)
-    comuna_id = Column(Integer(), db.ForeignKey("ferias_comuna.id"))
+    id = db.Column(db.Integer(), primary_key=True)
+    slug = db.Column(db.String(64), unique=True)
+    nombre = db.Column(db.String(64))
+    lunes = db.Column(db.Boolean(), default=False)
+    martes = db.Column(db.Boolean(), default=False)
+    miercoles = db.Column(db.Boolean(), default=False)
+    jueves = db.Column(db.Boolean(), default=False)
+    viernes = db.Column(db.Boolean(), default=False)
+    sabado = db.Column(db.Boolean(), default=False)
+    domingo = db.Column(db.Boolean(), default=False)
+    ubicacion = db.Column(db.JSON(), nullable=True)
+
+    comuna_id = db.Column(db.Integer(), db.ForeignKey("ferias_comuna.id"))
+    comuna = relationship("Comuna", back_populates="ferias")
 
     def __str__(self):
-        return self.slug
+        return self.nombre

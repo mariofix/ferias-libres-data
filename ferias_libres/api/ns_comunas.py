@@ -44,4 +44,4 @@ class carga_comunas(Resource):
 class lista_comunas(Resource):
     @ns.marshal_list_with(comuna_schema)
     def get(self):
-        return Comuna.query.all()
+        return Comuna.query.filter(Comuna.ferias.any()).all()
