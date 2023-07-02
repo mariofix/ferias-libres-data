@@ -8,7 +8,7 @@ from ..models import Comuna
 
 ns = Namespace("comunas")
 
-comuna_schema = ns.model("Comuna", {"slug": fields.String, "nombre": fields.String})
+comuna_schema = ns.model("Comuna", {"slug": fields.String, "nombre": fields.String, "region": fields.String})
 
 
 @ns.route("/carga-comunas/")
