@@ -28,6 +28,7 @@ bcrypt = "*"
 python-multipart = "*"
 flask-security-too = {extras = ["babel", "common", "sqla"], version = "*"}
 sqlalchemy-mixins = "*"
+sentry-sdk = {extras = ["flask"], version = "*"}
 
 [tool.poetry.group.dev]
 optional = true
