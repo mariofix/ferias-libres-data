@@ -2,7 +2,7 @@ import datetime
 
 from flask_admin.babel import lazy_gettext as _
 from flask_security.core import RoleMixin, UserMixin
-from sqlalchemy.orm import backref, declarative_mixin, relationship
+from sqlalchemy.orm import backref, declarative_mixin, relationship, Mapped, mapped_column
 
 from .database import db
 
@@ -93,20 +93,14 @@ class Comuna(db.Model, TimestampMixin):
 class Feria(db.Model, TimestampMixin):
     __tablename__ = "ferias_feria"
 
-    id = db.Column(db.Integer(), primary_key=True)
-    slug = db.Column(db.String(64), unique=True)
-    nombre = db.Column(db.String(64))
-    lunes = db.Column(db.Boolean(), default=False)
-    martes = db.Column(db.Boolean(), default=False)
-    miercoles = db.Column(db.Boolean(), default=False)
-    jueves = db.Column(db.Boolean(), default=False)
-    viernes = db.Column(db.Boolean(), default=False)
-    sabado = db.Column(db.Boolean(), default=False)
-    domingo = db.Column(db.Boolean(), default=False)
-    ubicacion = db.Column(db.JSON(), nullable=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    slug: Mapped[str] = mapped_column(db.String(128), unique=True)
+    nombre: Mapped[str] = mapped_column(db.String(128))
+    dias: Mapped[str] = mapped_column(db.JSON(), nullable=False)
+    ubicacion: Mapped[str] = mapped_column(db.JSON(), nullable=False)
 
-    comuna_id = db.Column(db.Integer(), db.ForeignKey("ferias_comuna.id"))
-    comuna = relationship("Comuna", back_populates="ferias")
+    comuna_id: Mapped[int] = mapped_column(db.ForeignKey("ferias_comuna.id"), nullable=True)
+    comuna: Mapped[Comuna] = relationship(back_populates="ferias")
 
     def __str__(self):
         return self.nombre

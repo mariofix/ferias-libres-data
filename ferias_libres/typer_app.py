@@ -12,7 +12,7 @@ from slugify import slugify
 from .configuracion import config
 from .schemas import Comuna, Feria, LatLng, Payload, Semana
 
-app = typer.Typer(help="CLI App para procesamiento de datos de Ferias Libres")
+app = typer.Typer(help="CLI App para procesamiento de datos de Ferias Libres")  # type: ignore
 app_debug = config.debug
 
 
@@ -23,7 +23,7 @@ def descarga_url(url_list: list | None = None) -> list:
     data: list = []
     primer_request = True
     headers = {"user-agent": config.httpx_ua}
-    with httpx.Client(limits=config.httpx_limits, headers=headers) as cliente:
+    with httpx.Client(limits=config.httpx_limits, headers=headers) as cliente:  # type: ignore
         for url in url_list:
             if not primer_request:
                 if config.debug:
@@ -45,90 +45,61 @@ def descarga_url(url_list: list | None = None) -> list:
     return data
 
 
-@app.command("obtiene-comunas")
-def descarga_comunas_por_region(
+@app.command("agrega-ferias")
+def agrega_ferias(
     region: Annotated[
-        int | None,
-        typer.Option(help="Define region a descargar. Todas si no se define."),
-    ] = None,
-    guardar: Annotated[
-        bool,
-        typer.Option(help="Guarda automaticamente el archivo en vez de mostrarlo en pantalla."),
-    ] = False,
+        int,
+        typer.Option(help="Numero de region: 1-16"),
+    ],
     archivo: Annotated[
         str,
         typer.Option(help="nombre del archivo a guardar."),
-    ] = "./comunas.json",
+    ] = "./ferias-libres-data.json",
 ):
     """
-    Descarga Listado de comunas
+    Descarga y procesa las ferias de una region
     """
     urls: list[HttpUrl] = []
-    if not region:
-        if config.debug:
-            rich_print("Vamos a descargar las comunas de 15 regiones...")
-        for region in range(1, 16):
-            urls.append(HttpUrl(f"{config.odepa_comunas}?pRegionId={region}"))
-
-    else:
-        urls.append(HttpUrl(f"{config.odepa_comunas}?pRegionId={region}"))
-
+    urls.append(HttpUrl(f"{config.odepa_ferias}?pRegionId={region}"))
     datos = descarga_url(urls)
-    if not guardar:
-        rich_print(datos)
-    else:
-        with open(archivo, "w", encoding="utf-8") as f:
-            try:
-                json.dump(datos, f, ensure_ascii=False, indent=4, sort_keys=True)
-            except Exception as e:
-                rich_print(f"Error: {e}")
-                raise typer.Abort()
-            else:
-                rich_print(f"Archivo [bold]{archivo}[/bold] Guardado!")
-                raise typer.Exit()
 
+    comunas: dict = {}
+    for fila_feria in datos:
+        for region, fila in fila_feria.items():
+            num_region = int(str(region).split("-").pop())
+            for feria in fila:
+                comuna_slug = slugify(feria.get("nombre_comuna"))
+                if app_debug:
+                    rich_print(f"{feria.get('nombre_comuna')=}")
+                    rich_print(f"{comuna_slug=}")
+                comuna = Comuna(
+                    nombre=feria.get("nombre_comuna"),
+                    slug=comuna_slug,
+                    region=num_region,
+                    ubicacion=LatLng(),
+                )
+                if comuna.slug not in comunas.keys():
+                    comunas.update({comuna.slug: comuna.dict()})
 
-@app.command("obtiene-ferias")
-def descarga_ferias_por_region(
-    region: Annotated[
-        int | None,
-        typer.Option(help="Define region a descargar. Todas si no se define."),
-    ] = None,
-    guardar: Annotated[
-        bool,
-        typer.Option(help="Guarda automaticamente el archivo en vez de mostrarlo en pantalla."),
-    ] = False,
-    archivo: Annotated[
-        str,
-        typer.Option(help="nombre del archivo a guardar."),
-    ] = "./ferias.json",
-):
-    """
-    Descarga Listado de ferias libres
-    """
-    urls: list[HttpUrl] = []
-    if not region:
-        if config.debug:
-            rich_print("Vamos a descargar las ferias de 15 regiones...")
-        for region in range(1, 16):
-            urls.append(HttpUrl(f"{config.odepa_ferias}?pRegionId={region}"))
+                feriaModel = Feria(
+                    nombre=feria.get("nombre_feria"),
+                    dias=adivina_dias(feria.get("postura_feria")),
+                    ubicacion=obtiene_lista_ubicaciones(feria.get("coordenadas")),
+                )
+                if app_debug:
+                    rich_print(f"{feria=}")
 
-    else:
-        urls.append(HttpUrl(f"{config.odepa_ferias}?pRegionId={region}"))
+                comunas[comuna_slug]["ferias"].append(feriaModel.dict())
 
-    datos = descarga_url(urls)
-    if not guardar:
-        rich_print(datos)
-    else:
-        with open(archivo, "w", encoding="utf-8") as f:
-            try:
-                json.dump(datos, f, ensure_ascii=False, indent=4, sort_keys=True)
-            except Exception as e:
-                rich_print(f"Error: {e}")
-                raise typer.Abort()
-            else:
-                rich_print(f"Archivo [bold]{archivo}[/bold] Guardado!")
-                raise typer.Exit()
+    with open(archivo, "w", encoding="utf-8") as f:
+        try:
+            json.dump(comunas, f, ensure_ascii=False, indent=4, sort_keys=True)
+        except Exception as e:
+            rich_print(f"Error: {e}")
+            raise typer.Abort()
+        else:
+            rich_print(f"Archivo [bold]{archivo}[/bold] Guardado!")
+            raise typer.Exit()
 
 
 @app.command("genera-archivos")
@@ -253,6 +224,92 @@ def adivina_dias(texto: str) -> Semana:
         rich_print(f"{semana}")
 
     return semana
+
+
+@app.command("obtiene-comunas")
+def descarga_comunas_por_region(
+    region: Annotated[
+        int,
+        typer.Option(help="Define region a descargar. Todas si no se define."),
+    ],
+    guardar: Annotated[
+        bool,
+        typer.Option(help="Guarda automaticamente el archivo en vez de mostrarlo en pantalla."),
+    ] = False,
+    archivo: Annotated[
+        str,
+        typer.Option(help="nombre del archivo a guardar."),
+    ] = "./comunas.json",
+):
+    """
+    Descarga Listado de comunas
+    """
+    urls: list[HttpUrl] = []
+    if not region:
+        if config.debug:
+            rich_print("Vamos a descargar las comunas de 15 regiones...")
+        for region in range(1, 16):
+            urls.append(HttpUrl(f"{config.odepa_comunas}?pRegionId={region}"))
+
+    else:
+        urls.append(HttpUrl(f"{config.odepa_comunas}?pRegionId={region}"))
+
+    datos = descarga_url(urls)
+    if not guardar:
+        rich_print(datos)
+    else:
+        with open(archivo, "w", encoding="utf-8") as f:
+            try:
+                json.dump(datos, f, ensure_ascii=False, indent=4, sort_keys=True)
+            except Exception as e:
+                rich_print(f"Error: {e}")
+                raise typer.Abort()
+            else:
+                rich_print(f"Archivo [bold]{archivo}[/bold] Guardado!")
+                raise typer.Exit()
+
+
+@app.command("obtiene-ferias")
+def descarga_ferias_por_region(
+    region: Annotated[
+        int,
+        typer.Option(help="Define region a descargar. Todas si no se define."),
+    ],
+    guardar: Annotated[
+        bool,
+        typer.Option(help="Guarda automaticamente el archivo en vez de mostrarlo en pantalla."),
+    ] = False,
+    archivo: Annotated[
+        str,
+        typer.Option(help="nombre del archivo a guardar."),
+    ] = "./ferias.json",
+):
+    """
+    Descarga Listado de ferias libres
+    """
+    urls: list[HttpUrl] = []
+    if not region:
+        if config.debug:
+            rich_print("Vamos a descargar las ferias de 15 regiones...")
+        for region in range(1, 16):
+            urls.append(HttpUrl(f"{config.odepa_ferias}?pRegionId={region}"))
+
+    else:
+        urls.append(HttpUrl(f"{config.odepa_ferias}?pRegionId={region}"))
+
+    datos = descarga_url(urls)
+    if not guardar:
+        rich_print(datos)
+    else:
+        with open(archivo, "w", encoding="utf-8") as f:
+            try:
+                json.dump(datos, f, ensure_ascii=False, indent=4, sort_keys=True)
+            except Exception as e:
+                rich_print(f"Error: {e}")
+                raise typer.Abort()
+            else:
+                rich_print(f"Archivo [bold]{archivo}[/bold] Guardado!")
+                raise typer.Exit()
 
 
 @app.callback()
