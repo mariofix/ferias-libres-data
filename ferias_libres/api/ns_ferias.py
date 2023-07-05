@@ -20,15 +20,7 @@ class lista_todo(Resource):
                     "comuna_slug": feria.comuna.slug,
                     "comuna_nombre": feria.comuna.nombre,
                     "comuna_region_slug": feria.comuna.region,
-                    "dias": {
-                        "lunes": feria.lunes,
-                        "martes": feria.martes,
-                        "miercoles": feria.miercoles,
-                        "jueves": feria.jueves,
-                        "viernes": feria.viernes,
-                        "sabado": feria.sabado,
-                        "domingo": feria.domingo,
-                    },
+                    "dias": feria.dias,
                 }
             )
 
@@ -55,15 +47,7 @@ class por_comuna(Resource):
                     "nombre": feria.nombre,
                     "slug": feria.slug,
                     "ubicacion": feria.ubicacion,
-                    "dias": {
-                        "lunes": feria.lunes,
-                        "martes": feria.martes,
-                        "miercoles": feria.miercoles,
-                        "jueves": feria.jueves,
-                        "viernes": feria.viernes,
-                        "sabado": feria.sabado,
-                        "domingo": feria.domingo,
-                    },
+                    "dias": feria.dias,
                 }
             )
         return_payload.update({"ferias": lista_ferias})
