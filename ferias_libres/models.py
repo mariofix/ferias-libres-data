@@ -2,7 +2,7 @@ import datetime
 
 from flask_admin.babel import lazy_gettext as _
 from flask_security.core import RoleMixin, UserMixin
-from sqlalchemy.orm import backref, declarative_mixin, relationship, Mapped, mapped_column
+from sqlalchemy.orm import Mapped, backref, declarative_mixin, mapped_column, relationship
 
 from .database import db
 
@@ -89,6 +89,12 @@ class Comuna(db.Model, TimestampMixin):
     def __str__(self):
         return self.nombre
 
+    def __repr__(self):
+        id = self.id
+        slug = self.slug
+        nombre = self.nombre
+        return f"<Comuna {id=}, {slug=}, {nombre=}>"
+
 
 class Feria(db.Model, TimestampMixin):
     __tablename__ = "ferias_feria"
@@ -102,5 +108,31 @@ class Feria(db.Model, TimestampMixin):
     comuna_id: Mapped[int] = mapped_column(db.ForeignKey("ferias_comuna.id"), nullable=True)
     comuna: Mapped[Comuna] = relationship(back_populates="ferias")
 
+    @property
+    def dias_str(self) -> str:
+        semana_arr = []
+        for dia, activo in self.dias.items():  # type: ignore
+            if activo:
+                semana_arr.append(dia.capitalize())
+        return ", ".join(semana_arr)
+
+    @property
+    def comuna_str(self) -> str:
+        return self.comuna.nombre
+
+    @property
+    def funcionando(self) -> bool:
+        return True if (datetime.time(8, 00) <= datetime.datetime.now().time() <= datetime.time(17, 00)) else False
+
+    @property
+    def latlng(self) -> list:
+        return [self.ubicacion[0]["latitude"], self.ubicacion[0]["longitude"]]  # type: ignore
+
     def __str__(self):
         return self.nombre
+
+    def __repr__(self):
+        id = self.id
+        slug = self.slug
+        nombre = self.nombre
+        return f"<Feria {id=}, {slug=}, {nombre=}>"

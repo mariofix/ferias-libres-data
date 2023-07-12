@@ -1,10 +1,6 @@
 import pytest
 
-from ferias_libres.typer_app import (
-    adivina_dias,
-    descarga_url,
-    obtiene_lista_ubicaciones,
-)
+from ferias_libres.typer_app import adivina_dias, descarga_url, obtiene_lista_ubicaciones
 
 
 def test_descarga_sin_url():
