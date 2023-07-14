@@ -16,7 +16,7 @@ if os.environ.get("SENTRY_ENABLED", False):
         ],
         traces_sample_rate=float(os.environ.get("SENTRY_SAMPLE_RATE", 1.0)),
         release=os.environ.get("SENTRY_RELEASE", None),
-        environment=os.environ.get("SENTRY_DSN", None),
+        environment=os.environ.get("SENTRY_ENV", None),
         attach_stacktrace=True,
         send_default_pii=True,
     )
