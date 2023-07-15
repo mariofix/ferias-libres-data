@@ -1,7 +1,9 @@
-from flask_restx import Namespace, Resource, fields
-from ..models import Comuna, Feria
-from ..database import db
 import datetime
+
+from flask_restx import Namespace, Resource, fields
+
+from ..database import db
+from ..models import Comuna, Feria
 
 ns = Namespace("datos")
 
@@ -64,7 +66,15 @@ schema_pack_feria = ns.model(
 
 
 def dia_de_la_semana(dia: int) -> str | None:
-    semana = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"]
+    semana = [
+        "lunes",
+        "martes",
+        "miercoles",
+        "jueves",
+        "viernes",
+        "sabado",
+        "domingo",
+    ]
     try:
         return semana[dia]
     except KeyError:
@@ -76,8 +86,9 @@ class pack_datos_index(Resource):
     @ns.marshal_list_with(schema_pack_datos)
     def get(self):
         dia_hoy = dia_de_la_semana(datetime.datetime.now().weekday())
-        ferias_hoy = db.session.query(Feria).filter(Feria.dias[dia_hoy] == True).all()
-        comunas_con_feria = db.session.query(Comuna).filter(Comuna.ferias.any()).all()
+        ferias_hoy = db.session.query(Feria).filter(Feria.dias[dia_hoy]).order_by(Feria.slug.asc()).all()
+
+        comunas_con_feria = db.session.query(Comuna).filter(Comuna.ferias.any()).order_by(Comuna.slug.asc()).all()  # type: ignore
         pack_datos = {
             "fecha": datetime.datetime.now(),
             "dia_semana": dia_hoy,
