@@ -54,6 +54,21 @@ schema_pack_datos = ns.model(
         "todas_las_comunas": fields.Nested(schema_comuna, skip_none=False),
     },
 )
+
+schema_pack_datos_tab_hoy = ns.model(
+    "PackDatosHoy",
+    {
+        "fecha": fields.Date,
+        "dia_semana": fields.String,
+        "datos": fields.Nested(schema_feria, skip_none=False),
+    },
+)
+schema_pack_datos_tab_comuna = ns.model(
+    "PackDatosComunas",
+    {
+        "datos": fields.Nested(schema_comuna, skip_none=False),
+    },
+)
 schema_pack_feria = ns.model(
     "PackFeria",
     {
@@ -94,6 +109,28 @@ class pack_datos_index(Resource):
             "dia_semana": dia_hoy,
             "ferias_de_hoy": ferias_hoy,
             "todas_las_comunas": comunas_con_feria,
+        }
+        return pack_datos
+
+
+@ns.route("/app/hoy")
+class pack_datos_tab_hoy(Resource):
+    @ns.marshal_list_with(schema_pack_datos_tab_hoy)
+    def get(self):
+        dia_hoy = dia_de_la_semana(datetime.datetime.now().weekday())
+        ferias_hoy = db.session.query(Feria).filter(Feria.dias[dia_hoy]).order_by(Feria.slug.asc()).all()
+
+        pack_datos = {"fecha": datetime.datetime.now(), "dia_semana": dia_hoy, "datos": ferias_hoy}
+        return pack_datos
+
+
+@ns.route("/app/comuna")
+class pack_datos_tab_comuna(Resource):
+    @ns.marshal_list_with(schema_pack_datos_tab_comuna)
+    def get(self):
+        comunas_con_feria = db.session.query(Comuna).filter(Comuna.ferias.any()).order_by(Comuna.slug.asc()).all()  # type: ignore
+        pack_datos = {
+            "datos": comunas_con_feria,
         }
         return pack_datos
 
