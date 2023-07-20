@@ -1,9 +1,7 @@
-import logging.config
-import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = "change-me"
+SECRET_KEY = ""
 DEBUG = True
 LOG_LEVEL = "INFO"
 ALLOWED_DOMAINS = ["tardis.local", "127.0.0.1"]
@@ -18,7 +16,7 @@ FLASK_ADMIN_FLUID_LAYOUT = True
 # Flask-Security config
 SECURITY_URL_PREFIX = "/security/"
 SECURITY_PASSWORD_HASH = "pbkdf2_sha512"
-SECURITY_PASSWORD_SALT = "ATGUOHAELKiubahiughaerGOJAEGj"
+SECURITY_PASSWORD_SALT = ""
 
 # Flask-Security URLs, overridden because they don't put a / at the end
 SECURITY_LOGIN_URL = "/login/"
@@ -33,34 +31,49 @@ SECURITY_TRACKABLE = True
 SECURITY_USERNAME_ENABLE = True
 
 # Flask-Babel
-BABEL_DEFAULT_LOCALE = "en"
+BABEL_DEFAULT_LOCALE = "es"
 BABEL_DEFAULT_TIMEZONE = "America/Santiago"
 BABEL_DEFAULT_FOLDER = "firenze/translations"
 LANGUAGES = {
-    "en": {"flag": "en", "name": "English"},
     "es": {"flag": "cl", "name": "Español"},
 }
 
-# Debug-Toolbar
-DEBUG_TB_ENABLED = DEBUG
-DEBUG_TB_INTERCEPT_REDIRECTS = False
-DEBUG_TB_PROFILER_ENABLED = False
+# Flask-RestX/SwaggerUI
+SWAGGER_UI_OPERATION_ID = True
+SWAGGER_UI_REQUEST_DURATION = True
 
-
-# Flask-Mail
-# MAIL_SERVER = "localhost"
-# MAIL_PORT = 587
-# MAIL_USE_TLS = True
-# MAIL_USERNAME = ""
-# MAIL_PASSWORD = ""
-# MAIL_TIMEOUT = 5
-# MAIL_DEFAULT_SENDER = "tests@mariofix.com"
-# MAIL_USE_LOCALTIME = True
-
-# Celery
-# CELERY_BROKER_URL = "redis://172.16.17.2:6379/10"
-# CELERY_LOG_LEVEL = "DEBUG" if DEBUG else LOG_LEVEL
-# CELERY_SCHEDULER = False
+SITEMAP_INCLUDE_RULES_WITHOUT_PARAMS = True
+SITEMAP_IGNORE_ENDPOINTS = [
+    "admin.index",
+    "admin.static",
+    "security.logout",
+    "security.login",
+    "security.verify",
+    "user.action_view",
+    "user.ajax_lookup",
+    "user.ajax_update",
+    "user.create_view",
+    "user.delete_view",
+    "user.details_view",
+    "user.edit_view",
+    "user.export",
+    "user.index_view",
+    "role.index_view",
+    "role.ajax_lookup",
+    "role.create_view",
+    "role.edit_view",
+    "role.details_view",
+    "comuna.index_view",
+    "comuna.ajax_lookup",
+    "comuna.create_view",
+    "comuna.edit_view",
+    "comuna.details_view",
+    "feria.index_view",
+    "feria.ajax_lookup",
+    "feria.create_view",
+    "feria.edit_view",
+    "feria.details_view",
+]
 
 APP_LOGGING_CONFIG = {
     "version": 1,

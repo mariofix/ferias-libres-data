@@ -8,7 +8,6 @@ Data Files for Ferias Libres
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/mariofix/ferias-libres-data/main.svg)](https://results.pre-commit.ci/latest/github/mariofix/ferias-libres-data/main)
 ![GitHub](https://img.shields.io/github/license/mariofix/ferias-libres-data)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/mariofix/ferias-libres-data/main)
-![GitHub top language](https://img.shields.io/github/languages/top/mariofix/ferias-libres-data)
 
 ## Origenes de Datos
 
