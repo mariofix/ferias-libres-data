@@ -4,9 +4,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="Ferias Libres, Tu feria cuando la necesites." />
+  <meta name="description" content="Descubre las mejores ferias libres de Chile en nuestra aplicación móvil. Explora mercados locales y disfruta de una amplia variedad de productos frescos y naturales. Conoce a los apasionados vendedores locales y déjate cautivar por el ambiente tradicional y acogedor. ¡Descarga la app ahora y vive la auténtica experiencia de las ferias chilenas!" />
   <meta name="author" content="mariofix <yo@mariofix.com>" />
-  <title>Ferias Libres</title>
+  <title>Ferias Libres - Encuentra productos frescos y naturales, cerca de ti</title>
   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" />
   <!-- Bootstrap icons-->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
@@ -22,7 +22,9 @@
   <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Ferias Libres" />
-  <meta property="og:description" content="Ferias Libres, Tu feria cuando la necesites." />
+
+<meta property="og:description" content="Descubre las mejores ferias libres de Chile en nuestra aplicación móvil. Explora mercados locales y disfruta de una amplia variedad de productos frescos y naturales. Conoce a los apasionados vendedores locales y déjate cautivar por el ambiente tradicional y acogedor. ¡Descarga la app ahora y vive la auténtica experiencia de las ferias chilenas!" />
+
   <meta property="og:url" content="https://ferias-libres.mariofix.com/" />
   <meta property="og:image" content="https://ferias-libres.mariofix.com/static/assets/img/card-header.png" />
 </head>
@@ -67,7 +69,7 @@
               Ferias Libres
             </h1>
             <p class="lead fw-normal text-muted mb-5">
-              Encuentra tu feria, el día que lo necesites.
+              Encuentra productos frescos y naturales, cerca de ti.
             </p>
             <div class="d-flex flex-column flex-lg-row align-items-center">
               <a class="me-lg-3 mb-4 mb-lg-0"
@@ -198,10 +200,6 @@
             <div class="device-wrapper">
               <div class="device" data-device="iPhoneX" data-orientation="portrait" data-color="black">
                 <div class="screen bg-black">
-                  <!-- PUT CONTENTS HERE:-->
-                  <!-- * * This can be a video, image, or just about anything else.-->
-                  <!-- * * Set the max width of your media to 100% and the height to-->
-                  <!-- * * 100% like the demo example below.-->
                   <video muted="muted" autoplay="" loop="" style="max-width: 100%; height: 100%">
                     <source src="{{ url_for('static', filename='assets/img/demo-screen.mp4') }}" type="video/mp4" />
                   </video>
@@ -227,7 +225,7 @@
           Estamos en busca de alguien que pueda publicar la aplicación en la Apple Store.
           </p>
           <a class="btn btn-outline-dark py-3 px-4 rounded-pill" href="https://github.com/mariofix/ferias-libres"
-            target="_blank">Buscanos en Github</a>
+            target="_blank">Encuentranos en Github</a>
         </div>
         <div class="col-sm-8 col-md-6">
           <div class="px-5 px-sm-0">
@@ -352,7 +350,7 @@
     function showAlertApple() {
       Swal.fire({
         title: 'No Disponible',
-        html: 'Lamentablemente no tenemos una version para iPhone, puedes visitar el sitio de <a href="https://apps.odepa.gob.cl/powerBI/reporte_ferias_libres.html">ODEPA</a> para ver una version Web del mapa. <br><br> Si eres desarrollador Apple y quieres publicar esta App en tu nombre, agrega un <a href="https://github.com/mariofix/ferias-libres/issues/new">issue en github</a>.',
+        html: 'Actualmente, nuestra aplicación no está disponible para iPhone. Puedes visitar el sitio de <a href="https://apps.odepa.gob.cl/powerBI/reporte_ferias_libres.html">ODEPA</a> para explorar una versión web del mapa. <br><br> Si eres un desarrollador Apple y estás interesado en publicar esta aplicación bajo tu nombre, ¡nos encantaría saber de ti! Por favor, agrega un <a href="https://github.com/mariofix/ferias-libres/issues/new">issue en GitHub</a> y estaremos encantados de colaborar contigo en esta emocionante iniciativa.',
         icon: "info",
         confirmButtonText: "Cerrar"
       })
