@@ -11,15 +11,14 @@ Main Factory has two endpoints:
 
 """
 import logging.config
-from typing import Optional
 
-from flask import Flask, request, session, url_for, render_template
+from flask import Flask, render_template, request, session, url_for
 from flask_admin import helpers as admin_helpers
 from flask_babel import Babel
-from flask_debugtoolbar import DebugToolbarExtension
 from flask_http_middleware import MiddlewareManager
 from flask_security.core import Security
 from flask_security.datastore import SQLAlchemyUserDatastore
+from flask_sitemap import Sitemap
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from .admin.site import admin_site
@@ -27,7 +26,6 @@ from .api import api_bp as api
 from .database import db, migrations
 from .middleware import AllowedDomainsMiddleware
 from .models import Role, User
-from flask_sitemap import Sitemap
 
 
 def create_app(settings_file: str | None = None) -> Flask:
@@ -39,7 +37,7 @@ def create_app(settings_file: str | None = None) -> Flask:
     app = Flask(__name__)
     app.wsgi_app = MiddlewareManager(app)
     app.wsgi_app.add_middleware(AllowedDomainsMiddleware)
-    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1)
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
     # Configure App
     if settings_file:
@@ -84,13 +82,13 @@ def create_app(settings_file: str | None = None) -> Flask:
 
     @security.context_processor
     def security_context_processor():
-        return dict(
-            admin_base_template=admin_site.base_template,  # type: ignore
-            admin_view=admin_site.index_view,
-            h=admin_helpers,  # type: ignore
-            get_url=url_for,
-            app=app,
-        )
+        return {
+            "admin_base_template": admin_site.base_template,  # type: ignore
+            "admin_view": admin_site.index_view,
+            "h": admin_helpers,  # type: ignore
+            "get_url": url_for,
+            "app": app,
+        }
 
     @app.get("/")
     def home():

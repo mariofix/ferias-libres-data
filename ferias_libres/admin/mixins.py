@@ -1,4 +1,4 @@
-from flask import abort, current_app, redirect, request, url_for
+from flask import abort, redirect, request, url_for
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
 from flask_security.core import current_user

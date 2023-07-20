@@ -4,7 +4,7 @@ import sentry_sdk
 from dotenv import load_dotenv
 from sentry_sdk.integrations.flask import FlaskIntegration
 
-from ferias_libres import create_app, __version__
+from ferias_libres import __version__, create_app
 
 load_dotenv()
 

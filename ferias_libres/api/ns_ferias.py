@@ -10,7 +10,7 @@ ns = Namespace("ferias")
 class lista_todo(Resource):
     def get(self):
         ferias = Feria.query.all()
-        lista_ferias: list = list()
+        lista_ferias: list = []
         for feria in ferias:
             lista_ferias.append(
                 {
@@ -30,7 +30,7 @@ class lista_todo(Resource):
 @ns.route("/<slug_comuna>")
 class por_comuna(Resource):
     def get(self, slug_comuna):
-        return_payload: dict = dict()
+        return_payload: dict = {}
         comuna = Comuna.query.filter(Comuna.slug == slug_comuna).first()
         if not comuna:
             abort(404, f"{slug_comuna} is not found.")
@@ -40,7 +40,7 @@ class por_comuna(Resource):
         return_payload.update({"comuna_slug": comuna.slug})
         return_payload.update({"comuna_nombre": comuna.nombre})
         return_payload.update({"comuna_region_slug": comuna.region})
-        lista_ferias: list = list()
+        lista_ferias: list = []
         for feria in ferias:
             lista_ferias.append(
                 {

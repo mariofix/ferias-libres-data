@@ -26,7 +26,7 @@ class TimestampMixin:
 class RolesUsers(db.Model):
     __tablename__ = "security_roles_users"
 
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True)  # noqa: A003
     user_id = db.Column("user_id", db.Integer(), db.ForeignKey("firenze_user.id"))
     role_id = db.Column("role_id", db.Integer(), db.ForeignKey("security_role.id"))
 
@@ -34,7 +34,7 @@ class RolesUsers(db.Model):
 class Role(db.Model, RoleMixin, TimestampMixin):
     __tablename__ = "security_role"
 
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True)  # noqa: A003
     name = db.Column(db.String(80), unique=True)
     description = db.Column(db.Text(), nullable=True)
     permissions = db.Column(db.JSON(), nullable=True)
@@ -51,7 +51,7 @@ class Role(db.Model, RoleMixin, TimestampMixin):
 class User(db.Model, UserMixin, TimestampMixin):
     __tablename__ = "firenze_user"
 
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True)  # noqa: A003
     username = db.Column(db.String(64), unique=True, nullable=True)
     email = db.Column(db.String(255), nullable=False)
     password = db.Column(db.String(255), nullable=False)
@@ -76,7 +76,7 @@ class User(db.Model, UserMixin, TimestampMixin):
 class Comuna(db.Model, TimestampMixin):
     __tablename__ = "ferias_comuna"
 
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True)  # noqa: A003
     slug = db.Column(db.String(64), unique=True)
     nombre = db.Column(db.String(64))
     cut = db.Column(db.Integer())
@@ -90,7 +90,7 @@ class Comuna(db.Model, TimestampMixin):
         return self.nombre
 
     def __repr__(self):
-        id = self.id
+        id = self.id  # noqa: A001
         slug = self.slug
         nombre = self.nombre
         return f"<Comuna {id=}, {slug=}, {nombre=}>"
@@ -99,7 +99,7 @@ class Comuna(db.Model, TimestampMixin):
 class Feria(db.Model, TimestampMixin):
     __tablename__ = "ferias_feria"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True)  # noqa: A003
     slug: Mapped[str] = mapped_column(db.String(128), unique=True)
     nombre: Mapped[str] = mapped_column(db.String(128))
     dias: Mapped[str] = mapped_column(db.JSON(), nullable=False)
@@ -136,7 +136,7 @@ class Feria(db.Model, TimestampMixin):
         return self.nombre
 
     def __repr__(self):
-        id = self.id
+        id = self.id  # noqa: A001
         slug = self.slug
         nombre = self.nombre
         return f"<Feria {id=}, {slug=}, {nombre=}>"

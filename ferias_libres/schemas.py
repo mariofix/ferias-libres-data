@@ -31,7 +31,7 @@ class Semana(BaseModel):
 class Feria(BaseModel):
     nombre: str
     dias: Semana
-    ubicacion: list[LatLng] = list()
+    ubicacion: list[LatLng] = []
 
 
 class Comuna(BaseModel):
@@ -39,8 +39,8 @@ class Comuna(BaseModel):
     slug: str
     region: int
     ubicacion: LatLng
-    ferias: list[Feria] = list()
+    ferias: list[Feria] = []
 
 
 class Payload(BaseModel):
-    comunas: list[Comuna] = list()
+    comunas: list[Comuna] = []

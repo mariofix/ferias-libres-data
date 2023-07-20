@@ -1,8 +1,5 @@
-from flask import redirect, request, url_for
 from flask_admin import Admin
 from flask_admin.consts import ICON_TYPE_FONT_AWESOME
-from flask_admin.contrib.sqla import ModelView
-from flask_admin.form import SecureForm
 from flask_babel import lazy_gettext as _
 
 from ..database import db

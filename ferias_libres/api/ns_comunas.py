@@ -1,9 +1,5 @@
-import json
-
 from flask_restx import Namespace, Resource, fields
-from slugify import slugify
 
-from ..database import db
 from ..models import Comuna
 
 ns = Namespace("comunas")

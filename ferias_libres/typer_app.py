@@ -1,7 +1,7 @@
 import json
 import re
 import time
-from typing import Annotated, Optional
+from typing import Annotated
 
 import httpx
 import typer
@@ -10,7 +10,7 @@ from rich import print as rich_print
 from slugify import slugify
 
 from .configuracion import config
-from .schemas import Comuna, Feria, LatLng, Payload, Semana
+from .schemas import Comuna, Feria, LatLng, Semana
 
 app = typer.Typer(help="CLI App para procesamiento de datos de Ferias Libres")  # type: ignore
 app_debug = config.debug

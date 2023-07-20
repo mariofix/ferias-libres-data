@@ -103,7 +103,7 @@ class pack_datos_index(Resource):
         dia_hoy = dia_de_la_semana(datetime.datetime.now().weekday())
         ferias_hoy = db.session.query(Feria).filter(Feria.dias[dia_hoy]).order_by(Feria.slug.asc()).all()
 
-        comunas_con_feria = db.session.query(Comuna).filter(Comuna.ferias.any()).order_by(Comuna.slug.asc()).all()  # type: ignore
+        comunas_con_feria = db.session.query(Comuna).filter(Comuna.ferias.any()).order_by(Comuna.slug.asc()).all()
         pack_datos = {
             "fecha": datetime.datetime.now(),
             "dia_semana": dia_hoy,
@@ -128,7 +128,7 @@ class pack_datos_tab_hoy(Resource):
 class pack_datos_tab_comuna(Resource):
     @ns.marshal_list_with(schema_pack_datos_tab_comuna)
     def get(self):
-        comunas_con_feria = db.session.query(Comuna).filter(Comuna.ferias.any()).order_by(Comuna.slug.asc()).all()  # type: ignore
+        comunas_con_feria = db.session.query(Comuna).filter(Comuna.ferias.any()).order_by(Comuna.slug.asc()).all()
         pack_datos = {
             "datos": comunas_con_feria,
         }

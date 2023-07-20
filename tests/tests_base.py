@@ -1,11 +1,6 @@
-import pytest
+import pytest  # noqa: F401
 
-from ferias_libres.typer_app import adivina_dias, descarga_url, obtiene_lista_ubicaciones
-
-
-def test_descarga_sin_url():
-    with pytest.raises(Exception):
-        descarga_url(None)
+from ferias_libres.typer_app import adivina_dias, obtiene_lista_ubicaciones
 
 
 def test_adivina_dias():

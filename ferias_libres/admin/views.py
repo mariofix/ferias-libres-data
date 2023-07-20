@@ -1,12 +1,6 @@
-from flask import current_app
-from flask_admin import BaseView, expose
 from flask_admin.babel import lazy_gettext as _
-from flask_admin.contrib.fileadmin import FileAdmin
-from flask_admin.contrib.sqla import ModelView
-from flask_admin.form import BaseForm
 from flask_security.utils import hash_password
-from wtforms import fields, validators
-from wtforms.widgets import TextArea
+from wtforms import fields
 
 from ..models import Role, User
 from .mixins import AdminModelView

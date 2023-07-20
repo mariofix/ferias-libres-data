@@ -1,7 +1,5 @@
 import json
-import time
 
-from flask import abort
 from flask_restx import Namespace, Resource, fields
 from rich import print as rich_print
 from slugify import slugify
@@ -26,7 +24,7 @@ class carga_ferias(Resource):
             nuevas = []
             lista = json.load(f)
             # print(f"{lista=}")
-            for key, row in lista.items():
+            for _key, row in lista.items():
                 # rich_print(f"{key=} {row=}")
                 comuna = Comuna.query.filter_by(slug=row["slug"]).first()
                 if not comuna:
