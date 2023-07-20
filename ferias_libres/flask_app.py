@@ -13,7 +13,7 @@ Main Factory has two endpoints:
 import logging.config
 from typing import Optional
 
-from flask import Flask, request, session, url_for
+from flask import Flask, request, session, url_for, render_template
 from flask_admin import helpers as admin_helpers
 from flask_babel import Babel
 from flask_debugtoolbar import DebugToolbarExtension
@@ -27,6 +27,7 @@ from .api import api_bp as api
 from .database import db, migrations
 from .middleware import AllowedDomainsMiddleware
 from .models import Role, User
+from flask_sitemap import Sitemap
 
 
 def create_app(settings_file: str | None = None) -> Flask:
@@ -64,6 +65,10 @@ def create_app(settings_file: str | None = None) -> Flask:
     user_datastore = SQLAlchemyUserDatastore(db, User, Role)
     security = Security(app, user_datastore)
 
+    # Sitemap
+    sitemap = Sitemap()
+    sitemap.init_app(app)
+
     # Flask-Babel
     babel = Babel()
 
@@ -89,10 +94,10 @@ def create_app(settings_file: str | None = None) -> Flask:
 
     @app.get("/")
     def home():
-        return "/</body>"
+        return render_template("index.html")
 
-    @app.get("/app.status/")
-    def status():
-        return "status"
+    @app.get("/robots.txt")
+    def robots_txt():
+        return "# robots.txt\n\nUser-agent: *\n\n"
 
     return app

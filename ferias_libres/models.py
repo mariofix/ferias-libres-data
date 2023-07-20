@@ -122,7 +122,11 @@ class Feria(db.Model, TimestampMixin):
 
     @property
     def funcionando(self) -> bool:
-        return True if (datetime.time(8, 00) <= datetime.datetime.now().time() <= datetime.time(17, 00)) else False
+        return True if (datetime.time(8, 00) <= datetime.datetime.now().time() <= datetime.time(15, 00)) else False
+
+    @property
+    def color_icono(self) -> str:
+        return "green" if self.funcionando else "red"
 
     @property
     def latlng(self) -> list:

@@ -17,7 +17,7 @@ api = Api(
     description="API Endpoints para la App Ferias Libres",
     validate=True,
     ordered=True,
-    doc="/boss/",
+    doc="/doc/",
 )
 
 api.add_namespace(comunas_ns)

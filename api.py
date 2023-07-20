@@ -4,7 +4,7 @@ import sentry_sdk
 from dotenv import load_dotenv
 from sentry_sdk.integrations.flask import FlaskIntegration
 
-from ferias_libres import create_app
+from ferias_libres import create_app, __version__
 
 load_dotenv()
 
@@ -14,9 +14,10 @@ if os.environ.get("SENTRY_ENABLED", False):
         integrations=[
             FlaskIntegration(),
         ],
-        traces_sample_rate=float(os.environ.get("SENTRY_SAMPLE_RATE", 1.0)),
-        release=os.environ.get("SENTRY_RELEASE", None),
-        environment=os.environ.get("SENTRY_ENV", None),
+        traces_sample_rate=float(os.environ.get("SENTRY_TRACE_SAMPLE_RATE", 1.0)),
+        profiles_sample_rate=float(os.environ.get("SENTRY_PROFILE_SAMPLE_RATE", 1.0)),
+        release=f"api@{__version__}",
+        environment=os.environ.get("SENTRY_ENV", "production"),
         attach_stacktrace=True,
         send_default_pii=True,
     )
